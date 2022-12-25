@@ -133,7 +133,7 @@ func (l *Light) GetCache(blockNum uint64) time.Duration {
 func (l *Light) Compute(hash common.Hash, nonce uint64, block_number uint64) (ok bool, mixDigest, result common.Hash) {
 	if block_number >= epochLength*2048 {
 		log.Debug(fmt.Sprintf("block number %d too high, limit is %d", block_number, epochLength*2048))
-		return false, common.HexToHash(maxUint256.Text(16)), common.HexToHash(maxUint256.Text(16))
+		return false, common.HexToHash(maxUint256.Text(16)).Bytes(), common.HexToHash(maxUint256.Text(16)).Bytes()
 	}
 
 	cache := l.getCache(block_number)
@@ -147,7 +147,7 @@ func (l *Light) Compute(hash common.Hash, nonce uint64, block_number uint64) (ok
 	// This is important because a GC might happen and execute
 	// the finalizer before the call completes.
 	_ = cache
-	return bool(ret.success), h256ToHash(ret.mix_hash), h256ToHash(ret.result)
+	return bool(ret.success), h256ToHash(ret.mix_hash).Bytes(), h256ToHash(ret.result).Bytes()
 }
 
 // Verify checks whether the block's nonce is valid.
