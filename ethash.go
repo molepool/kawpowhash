@@ -130,7 +130,7 @@ func (l *Light) GetCache(blockNum uint64) time.Duration {
 	return time.Since(start)
 }
 
-func (l *Light) Compute(hash common.Hash, nonce uint64, block_number uint64) (ok bool, mixDigest, result common.Hash) {
+func (l *Light) Compute(hash common.Hash, nonce uint64, block_number uint64) (ok bool, mixDigest, result []byte) {
 	if block_number >= epochLength*2048 {
 		log.Debug(fmt.Sprintf("block number %d too high, limit is %d", block_number, epochLength*2048))
 		return false, common.HexToHash(maxUint256.Text(16)).Bytes(), common.HexToHash(maxUint256.Text(16)).Bytes()
